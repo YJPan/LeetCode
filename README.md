@@ -1,2 +1,2 @@
 # LeetCode
-Practice LeetCode in Python
+LeetCode in C++, Python or Go
