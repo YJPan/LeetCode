@@ -2,9 +2,10 @@
 #include <string>
 #include <algorithm>
 #include <vector>
-#include <list>
 #include <queue>
 #include <stack>
+#include <deque>
+#include <list>
 #include <map>
 
 using namespace std;
