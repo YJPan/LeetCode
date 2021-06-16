@@ -1,7 +1,8 @@
 #!/bin/bash
 
 if [[ "$@" == *.cpp ]]; then
-    g++ $1 -o ans -std=c++11
+    g++ $1 -o answer -std=c++11
+    ./answer
 elif [[ "$@" == *.py ]]; then
     python3 $1
 elif [[ "$@" == *.go ]]; then
