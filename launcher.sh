@@ -1,19 +1,34 @@
 #!/bin/bash
 
+FILETYPE="cpp"
+
+if [[ $# -lt 1 ]]; then
+    echo ""
+    echo "Usage: ./build <filetype> title_of_problem"
+    echo ""
+    echo "The defualt filetype is \"$FILETYPE\" (cpp, py, go are supported)"
+    echo ""
+    exit 0
+fi
+
 if [[ "$@" == *.cpp ]]; then
     g++ $1 -o answer -std=c++11
-    ./answer
+
+    if [[ -f "./answer" ]]; then
+        ./answer
+    fi
 elif [[ "$@" == *.py ]]; then
     python3 $1
 elif [[ "$@" == *.go ]]; then
     go run $1
 else
-    FILETYPE="cpp"
-
     if [[ "$1" == "cpp" || "$1" == "py" || "$1" == "cpp" ]]; then
         FILETYPE=$1
         shift
     fi
+
+    echo "Purge old files ..."
+    rm -f ./answer
 
     TITLE="$@"
     filename=`python3 -c "
@@ -24,7 +39,7 @@ name = '_'.join(name.split()) + '.$FILETYPE'
 print(f'{num:04d}_{name}')
     "`
 
-    echo "Generating $filename ..."
+    echo "Generate $filename ..."
 
     cp template.$FILETYPE $filename
 fi
