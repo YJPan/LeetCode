@@ -13,6 +13,42 @@ using namespace std;
 
 class Solution {
 public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> graph(numCourses, vector<int>());
+        vector<int> inDegree(numCourses, 0);
+        queue<int> q;
+        vector<int> ans;
+        int cnt = 0;
+
+        for (auto p : prerequisites) {
+            graph[p[1]].push_back(p[0]);
+            inDegree[p[0]]++;
+        }
+
+        for (int i = 0; i < numCourses; i++) {
+            if (inDegree[i] == 0) {
+                q.push(i);
+            }
+        }
+
+        while (!q.empty()) {
+            int course = q.front(); q.pop();
+            ans.push_back(course);
+            cnt++;
+            for (auto c : graph[course]) {
+                inDegree[c]--;
+                if (inDegree[c] == 0)
+                    q.push(c);
+            }
+        }
+
+        if (cnt != numCourses)
+            ans.clear();
+
+        return ans;
+    }
+
+    /*
     bool haveCycle(vector<vector<int>>& graph, vector<int>& visit, int course, vector<int>& ans) {
         if (visit[course] == 1) return true;
         if (visit[course] == 2) return false;
@@ -52,6 +88,7 @@ public:
 
         return ans;
     }
+    */
 };
 
 int main(int argc, char *argv[]) {
@@ -72,6 +109,15 @@ int main(int argc, char *argv[]) {
     // Output: [0,2,1,3]
     prerequisites = {{1, 0}, {2, 0}, {3, 1}, {3, 2}};
     ans = solution.findOrder(4, prerequisites);
+    for (auto course : ans) {
+        cout << course << " ";
+    }
+    cout << endl;
+
+    // Input: numCourses = 1, prerequisites = []
+    // Output: [0]
+    prerequisites = {};
+    ans = solution.findOrder(1, prerequisites);
     for (auto course : ans) {
         cout << course << " ";
     }
