@@ -11,6 +11,36 @@
 
 using namespace std;
 
+/*
+class Solution {
+public:
+    void dfs(int x, int y, int m, int n, int step, int& ans) {
+        cout << x << " " << y << " " << step << " ";
+        if (x == -1 || y == -1 || x == m || y == n) {
+            ans += 1;
+            ans %= 1000000007;
+            return;
+        }
+
+        if (step == 0) return;
+
+        vector<vector<int>> dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dir[i][0], ny = y + dir[i][1];
+            dfs(nx, ny, m, n, step - 1, ans);
+        }
+    }
+
+    int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+        int ans = 0;
+
+        dfs(startRow, startColumn, m, n, maxMove, ans);
+
+        return ans;
+    }
+};
+*/
+
 class Solution {
 public:
     int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
