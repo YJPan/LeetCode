@@ -4,7 +4,7 @@ FILETYPE="cpp"
 
 if [[ $# -lt 1 ]]; then
     echo ""
-    echo "Usage: ./build <filetype> title_of_problem"
+    echo "Usage: ./launcher.sh <filetype> title_of_problem"
     echo ""
     echo "The defualt filetype is \"$FILETYPE\" (cpp, py, go are supported)"
     echo ""
