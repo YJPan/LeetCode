@@ -1,4 +1,5 @@
 import sys
+import heapq
 from typing import *
 from collections import OrderedDict
 from collections import deque
