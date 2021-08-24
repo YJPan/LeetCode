@@ -24,11 +24,12 @@ public:
         else
             goal /= 2;
 
-        vector<int> dp(goal + 1, false);
+        int co = (goal < 0) ? -1 : 1;
+        vector<int> dp(co * goal + 1, false);
         dp[0] = 1;
 
         for (auto num : nums) {
-            for (int i = goal; i >= num; i--) {
+            for (int i = co * goal; i >= num; i--) {
                 dp[i] += dp[i - num];
             }
         }
