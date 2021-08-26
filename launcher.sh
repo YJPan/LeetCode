@@ -12,7 +12,7 @@ if [[ $# -lt 1 ]]; then
 fi
 
 if [[ "$@" == *.cpp ]]; then
-    g++ $1 -o answer -std=c++11
+    g++ $1 -o answer -std=c++17
 
     if [[ -f "./answer" ]]; then
         ./answer
