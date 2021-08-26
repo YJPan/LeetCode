@@ -22,6 +22,28 @@ struct TreeNode {
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> ret;
+        stack<TreeNode *> s;
+
+        while (!s.empty() || root) {
+            if (root) {
+                s.push(root);
+                root = root->left;
+            } else {
+                TreeNode *n = s.top(); s.pop();
+                ret.push_back(n->val);
+                root = n->right;
+            }
+        }
+
+        return ret;
+    }
+};
+
+/*
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
         vector<int> ans;
         stack<TreeNode *> s;
 
@@ -46,26 +68,7 @@ public:
         return ans;
     }
 };
-
-// class Solution {
-// public:
-//     void dfs(TreeNode* root, vector<int> &ans) {
-//         if (root->left) dfs(root->left, ans);
-
-//         ans.push_back(root->val);
-
-//         if (root->right) dfs(root->right, ans);
-//     }
-
-//     vector<int> inorderTraversal(TreeNode* root) {
-//         vector<int> ans;
-
-//         if (root)
-//             dfs(root, ans);
-
-//         return ans;
-//     }
-// };
+*/
 
 int main(int argc, char *argv[]) {
 

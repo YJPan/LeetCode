@@ -25,6 +25,28 @@ public:
     vector<int> preorderTraversal(TreeNode* root) {
         vector<int> ret;
         stack<TreeNode *> s;
+
+        while (!s.empty() || root) {
+            if (root) {
+                ret.push_back(root->val);
+                s.push(root);
+                root = root->left;
+            } else {
+                TreeNode *n = s.top(); s.pop();
+                root = n->right;
+            }
+        }
+
+        return ret;
+    }
+};
+
+/*
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> ret;
+        stack<TreeNode *> s;
         if (!root) return ret;
         s.push(root);
 
@@ -38,55 +60,9 @@ public:
         return ret;
     }
 };
+*/
 
 int main(int argc, char *argv[]) {
-    Solution solution;
-    TreeNode* root;
-    vector<int> ret;
-
-    // Input: root = [1,null,2,3]
-    // Output: [1,2,3]
-    root = new TreeNode(1);
-    root->right = new TreeNode(2);
-    root->right->left = new TreeNode(3);
-    ret = solution.preorderTraversal(root);
-    for (auto r : ret)
-        cout << r << " ";
-    cout << endl;
-
-    // Input: root = []
-    // Output: []
-    root = nullptr;
-    ret = solution.preorderTraversal(root);
-    for (auto r : ret)
-        cout << r << " ";
-    cout << endl;
-
-    // Input: root = [1]
-    // Output: [1]
-    root = new TreeNode(1);
-    ret = solution.preorderTraversal(root);
-    for (auto r : ret)
-        cout << r << " ";
-    cout << endl;
-
-    // Input: root = [1,2]
-    // Output: [1,2]
-    root = new TreeNode(1);
-    root->left = new TreeNode(2);
-    ret = solution.preorderTraversal(root);
-    for (auto r : ret)
-        cout << r << " ";
-    cout << endl;
-
-    // Input: root = [1,null,2]
-    // Output: [1,2]
-    root = new TreeNode(1);
-    root->right = new TreeNode(2);
-    ret = solution.preorderTraversal(root);
-    for (auto r : ret)
-        cout << r << " ";
-    cout << endl;
 
     return 0;
 }
