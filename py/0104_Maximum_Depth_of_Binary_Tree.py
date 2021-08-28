@@ -4,21 +4,25 @@ from typing import *
 from collections import OrderedDict
 from collections import deque
 
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
         self.left = left
         self.right = right
 
+
 # bottom-up
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        if root is None: return 0
+        if root is None:
+            return 0
 
         return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1
 
+
 # top-down
-'''
+"""
 class Solution:
     max_depth = 0
 
@@ -38,7 +42,7 @@ class Solution:
         self.recursion(root, 1)
 
         return self.max_depth
-'''
+"""
 
 if __name__ == "__main__":
     solution = Solution()

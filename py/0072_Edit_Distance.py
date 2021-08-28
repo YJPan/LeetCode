@@ -4,6 +4,7 @@ from typing import *
 from collections import OrderedDict
 from collections import deque
 
+
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
         len1, len2 = len(word1), len(word2)
@@ -23,6 +24,7 @@ class Solution:
                     dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
 
         return dp[len1][len2]
+
 
 if __name__ == "__main__":
     solution = Solution()

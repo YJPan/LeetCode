@@ -4,6 +4,7 @@ from collections import OrderedDict
 from collections import deque
 import re
 
+
 class Solution:
     def mostCommonWord(self, paragraph: str, banned: List[str]) -> str:
         words = re.split(r"[!?',;. ]", paragraph)
@@ -27,6 +28,7 @@ class Solution:
                 max_times = record[w]
 
         return ret
+
 
 if __name__ == "__main__":
     solution = Solution()
