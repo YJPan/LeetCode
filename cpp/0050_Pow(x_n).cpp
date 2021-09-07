@@ -18,15 +18,13 @@ public:
         if (x == -1.0) {
             return (abs(n) % 2 == 1) ? -1.0 : 1.0;
         }
-        if (n == INT_MIN) return 0.0;
 
-        double ans = 1;
-        bool positive = (n > 0) ? true : false;
-        n = abs(n);
+        double ans = (n == INT_MIN) ? x : 1;
+        bool positive = (n == INT_MIN || n < 0) ? false : true;
+        n = (n == INT_MIN) ? INT_MAX : abs(n);
 
         while (n > 0) {
-            if (n & 1)
-                ans *= x;
+            if (n & 1) ans *= x;
             x *= x;
             n = (n >> 1);
         }
