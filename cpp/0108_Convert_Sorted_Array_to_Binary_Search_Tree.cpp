@@ -21,23 +21,22 @@ struct TreeNode {
 
 class Solution {
 public:
-    TreeNode* recursion(vector<int>& nums, int start, int end) {
-        if (start > end) return nullptr;
+    TreeNode* recursion(vector<int>& nums, int s, int e) {
+        if (s > e) return nullptr;
 
-        int mid = (start + end) / 2;
-        TreeNode *root = new TreeNode(nums[mid]);
-        if (start == end) return root;
+        int m = s + (e - s) / 2;
+        TreeNode* node = new TreeNode(nums[m]);
+        node->left = recursion(nums, s, m - 1);
+        node->right = recursion(nums, m + 1, e);
 
-        root->left = recursion(nums, start, mid - 1);
-        root->right = recursion(nums, mid + 1, end);
-
-        return root;
+        return node;
     }
 
     TreeNode* sortedArrayToBST(vector<int>& nums) {
         return recursion(nums, 0, nums.size() - 1);
     }
 };
+
 
 int main(int argc, char *argv[]) {
 

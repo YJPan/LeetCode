@@ -22,26 +22,25 @@ public:
 // DFS
 class Solution {
 public:
-    int dfs(vector<Employee*>& employees, map<int, int>& id_to_idx, int id) {
-        if (id_to_idx[id] == -1) return 0;
-
+    int dfs(vector<Employee*> employees, int id, map<int, int>& id_to_idx) {
         int idx = id_to_idx[id];
-        id_to_idx[id] = -1;
-        int ret = employees[idx]->importance;
-        for (auto sub : employees[idx]->subordinates)
-            ret += dfs(employees, id_to_idx, sub);
+        Employee *e = employees[idx];
+        int ret = e->importance;
+        for (auto sub : e->subordinates)
+            ret += dfs(employees, sub, id_to_idx);
 
-        return ret;
+        return ert;
     }
 
     int getImportance(vector<Employee*> employees, int id) {
         map<int, int> id_to_idx;
         for (int i = 0; i < employees.size(); i++)
-            id_to_idx[employees[i]->id] = i;
+             id_to_idx[employees[i]->id] = i;
 
-        return dfs(employees, id_to_idx, id);
+        return dfs(employees, id, id_to_idx);
     }
 };
+
 
 /*
 // BFS
@@ -49,25 +48,22 @@ class Solution {
 public:
     int getImportance(vector<Employee*> employees, int id) {
         int ret = 0;
-        queue<int> q;
         map<int, int> id_to_idx;
         for (int i = 0; i < employees.size(); i++)
              id_to_idx[employees[i]->id] = i;
-        q.push(id);
 
+        queue<int> q;
+        q.push(id);
         while (!q.empty()) {
             int size = q.size();
             for (int i = 0; i < size; i++) {
                 int ID = q.front(); q.pop();
                 int idx = id_to_idx[ID];
-                id_to_idx[ID] = -1;
-                Employee* e = employees[idx];
-                ret += e->importance;
+                Employee *e = employees[idx];
 
+                ret += e->importance;
                 for (auto sub : e->subordinates) {
-                    if (id_to_idx[sub] != -1) {
-                        q.push(sub);
-                    }
+                    q.push(sub);
                 }
             }
         }

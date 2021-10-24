@@ -26,31 +26,23 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        map<Node*, Node*>record;
+        map<Node*, Node*> record;
         Node *ans = new Node(0);
         Node *ptr = ans;
 
         while (head) {
-            auto iter = record.find(head);
-            if (iter == record.end()) {
-                ptr->next = new Node(head->val);
-                record[head] = ptr->next;
-            } else {
-                ptr->next = iter->second;
-            }
+            if (record.count(head) == 0)
+                record[head] = new Node(head->val);
+            ptr->next = record[head];
 
             if (head->random) {
-                iter = record.find(head->random);
-                if (iter == record.end()) {
-                    ptr->next->random = new Node(head->random->val);
-                    record[head->random] = ptr->next->random;
-                } else {
-                    ptr->next->random = iter->second;
-                }
+                if (record.count(head->random) == 0)
+                    record[head->random] = new Node(head->random->val);
+                ptr->next->random = record[head->random];
             }
 
-            ptr = ptr->next;
             head = head->next;
+            ptr = ptr->next;
         }
 
         return ans->next;
