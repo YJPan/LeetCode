@@ -14,32 +14,25 @@ using namespace std;
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        vector<int> record = {nums[0]};
+        int ret = 1;
+        vector<int> record(nums.size(), 0);
+        record[0] = nums[0];
 
         for (int i = 1; i < nums.size(); i++) {
-            if (nums[i] > record[record.size() - 1]) {
-                record.push_back(nums[i]);
-            } else {
-                int lb = 0, ub = record.size() - 1;
-                int mid = 0;
-
-                while (lb <= ub) {
-                    mid = (lb + ub) / 2;
-
-                    if (record[mid] >= nums[i])
-                        ub = mid - 1;
-                    else
-                        lb = mid + 1;
-                }
-
-                auto it = record.begin();
-                advance(it, lb);
-
-                *it = nums[i];
+            int l = 0, r = ret;
+            int m;
+            while (l < r) {
+                m = l + (r - l) / 2;
+                if (record[m] < nums[i])
+                    l = m + 1;
+                else
+                    r = m;
             }
+            record[l] = nums[i];
+            ret = max(ret, l + 1);
         }
 
-        return record.size();
+        return ret;
     }
 };
 

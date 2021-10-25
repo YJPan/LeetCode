@@ -15,24 +15,22 @@ class Solution {
 public:
     vector<int> asteroidCollision(vector<int>& asteroids) {
         vector<int> ret;
-
-        for (int i = 0; i < asteroids.size(); i++) {
-            bool append = true;
-            while (!ret.empty() && ret.back() > 0 && asteroids[i] < 0) {
-                if (ret.back() + asteroids[i] == 0) {
+        for (auto asteroid : asteroids) {
+            bool keep = true;
+            while (!ret.empty() && (ret.back() > 0 && asteroid < 0)) {
+                if (ret.back() + asteroid > 0) {
+                    keep = false;
+                    break;
+                } else if (ret.back() + asteroid < 0) {
                     ret.pop_back();
-                    append = false;
-                    break;
-                } else if (ret.back() + asteroids[i] > 0) {
-                    append = false;
-                    break;
                 } else {
                     ret.pop_back();
+                    keep = false;
+                    break;
                 }
             }
 
-            if (append)
-                ret.push_back(asteroids[i]);
+            if (keep) ret.push_back(asteroid);
         }
 
         return ret;
