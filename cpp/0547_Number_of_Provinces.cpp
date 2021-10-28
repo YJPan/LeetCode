@@ -15,9 +15,9 @@ using namespace std;
 class Solution {
 public:
     void dfs(vector<vector<int>>& isConnected, vector<bool>& visit, int node) {
+        visit[node] = true;
         for (int i = 0; i < isConnected.size(); i++) {
             if (!visit[i] && isConnected[node][i] == 1) {
-                visit[i] = true;
                 dfs(isConnected, visit, i);
             }
         }
@@ -30,7 +30,6 @@ public:
 
         for (int i = 0; i < n; i++) {
             if (!visit[i]) {
-                visit[i] = true;
                 dfs(isConnected, visit, i);
                 ans++;
             }
