@@ -27,24 +27,31 @@ public:
 
 class Solution {
 public:
-    // void resursion(Node* root) {
-    //     if (!root) return;
+    Node* connect(Node* root) {
+        if (!root) return nullptr;
 
-    //     if (root->left && root->right) {
-    //         root->left->next = root->right;
-    //         if (root->next) {
-    //             root->right->next = root->next->left;
-    //         }
-    //         resursion(root->left);
-    //         resursion(root->right);
-    //     }
-    // }
+        queue<Node*> q;
+        q.push(root);
+        while (!q.empty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                Node* n = q.front(); q.pop();
+                n->next = (i != size - 1) ? q.front() : nullptr;
 
-    // Node* connect(Node* root) {
-    //     resursion(root);
-    //     return root;
-    // }
+                if (n->left)
+                    q.push(n->left);
+                if (n->right)
+                    q.push(n->right);
+            }
+        }
 
+        return root;
+    }
+};
+
+/*
+class Solution {
+public:
     Node* connect(Node* root) {
         if (!root) return root;
 
@@ -70,6 +77,7 @@ public:
         return root;
     }
 };
+*/
 
 int main(int argc, char *argv[]) {
 
