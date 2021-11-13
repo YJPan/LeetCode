@@ -41,5 +41,5 @@ print(f'{num:04d}_{name}')
 
     echo "Generate $filename ..."
 
-    cp template.$FILETYPE $filename
+    cp template.$FILETYPE cpp/$filename
 fi
