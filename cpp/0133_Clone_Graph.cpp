@@ -32,25 +32,24 @@ public:
 
 class Solution {
 public:
-    Node* dfs(Node* node, vector<Node *>& node_record) {
-        if (node_record[node->val] != nullptr)
-            return node_record[node->val];
+    Node* dfs(Node* node, map<Node *, Node *>& record) {
+        if (record.count(node) != 0)
+            return record[node];
 
-        Node *n = new Node(node->val);
-        node_record[node->val] = n;
+        record[node] = new Node(node->val);
 
         for (auto ns : node->neighbors)
-            n->neighbors.push_back(dfs(ns, node_record));
+            record[node]->neighbors.push_back(dfs(ns, record));
 
-        return n;
+        return record[node];
     }
 
     Node* cloneGraph(Node* node) {
         if (!node) return nullptr;
 
-        vector<Node *> node_record(101, nullptr);
+        map<Node *, Node *> record;
 
-        return dfs(node, node_record);
+        return dfs(node, record);
     }
 };
 
