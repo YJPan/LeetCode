@@ -21,62 +21,25 @@ public:
         for (auto c : p)
             pc[c - 'a']++;
 
-        int begin = 0;
         for (int i = 0; i < s.length(); i++) {
             sc[s[i] - 'a']++;
             if (i >= p.length() - 1) {
-                bool same = true;
-                for (int j = 0; j < 26; j++) {
-                    if (sc[j] != pc[j]) {
-                        same = false;
-                        break;
-                    }
+                int j = 0;
+                int begin = i - p.length() + 1;
+
+                while (j < 26) {
+                    if (sc[j] != pc[j]) break;
+                    j++;
                 }
 
-                if (same)
-                    ret.push_back(begin);
+                if (j == 26) ret.push_back(begin);
 
                 sc[s[begin] - 'a']--;
-                begin++;
             }
         }
 
         return ret;
     }
-
-/*
-    vector<int> findAnagrams(string s, string p) {
-        vector<int> ret;
-        int end = p.length() - 1;
-        map<char, int> counter;
-        set<char> minus;
-
-        for (auto c : p)
-            counter[c]++;
-
-        for (int i = 0; i <= s.length(); i++) {
-            if (i >= p.length()) {
-                int begin = i - p.length();
-
-                if (minus.size() == 0)
-                    ret.push_back(begin);
-
-                counter[s[begin]]++;
-                if (counter[s[begin]] == 0)
-                    minus.erase(s[begin]);
-
-                if (i == s.length())
-                    break;
-            }
-
-            counter[s[i]]--;
-            if (counter[s[i]] < 0)
-                minus.insert(s[i]);
-        }
-
-        return ret;
-    }
-*/
 };
 
 int main(int argc, char *argv[]) {
