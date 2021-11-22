@@ -26,16 +26,16 @@ public:
 
         string behind_point = "";
         while (A != 0) {
-            if (record.find(A) != record.end()) {
+            if (record.count(A) != 0) {
                 behind_point.insert(record[A], "(");
                 behind_point.append(")");
                 break;
             }
+
             record[A] = pos++;
 
             A *= 10;
-            int digit = A / B;
-            behind_point.append(to_string(digit));
+            behind_point.append(to_string(A / B));
             A %= B;
         }
 

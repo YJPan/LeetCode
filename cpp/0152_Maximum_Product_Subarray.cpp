@@ -17,24 +17,21 @@ public:
         if(n == 0) return 0;
         if(n == 1) return nums[0];
 
-        int max_prod = 0;
-        int curr_prod = 1;
-        for (int i = 0; i < n; i++) {
-            curr_prod *= nums[i];
-            max_prod = max(max_prod, curr_prod);
-            if (curr_prod == 0)
-                curr_prod = 1;
+        int ret = nums[0];
+        vector<int> max_so_far(n, 0);
+        vector<int> min_so_far(n, 0);
+        max_so_far[0] = min_so_far[0] = nums[0];
+
+        for (int i = 1; i < n; i++) {
+            int max_now = max({nums[i], nums[i] * max_so_far[i - 1], nums[i] * min_so_far[i - 1]});
+            int min_now = min({nums[i], nums[i] * max_so_far[i - 1], nums[i] * min_so_far[i - 1]});
+
+            ret = max(ret, max_now);
+            max_so_far[i] = max_now;
+            min_so_far[i] = min_now;
         }
 
-        curr_prod = 1;
-        for (int i = n - 1; i >= 0; i--) {
-            curr_prod *= nums[i];
-            max_prod = max(max_prod , curr_prod);
-            if(curr_prod == 0)
-                curr_prod = 1;
-        }
-
-        return max_prod;
+        return ret;
     }
 };
 
