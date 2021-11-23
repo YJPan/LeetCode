@@ -19,12 +19,16 @@ struct ListNode {
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        while (head) {
-            if (head->val == INT_MAX)
-                return true;
+        if (!head) return false;
 
-            head->val = INT_MAX;
-            head = head->next;
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while (fast->next && fast->next->next) {
+            fast = fast->next->next;
+            slow = slow->next;
+
+            if (slow == fast) return true;
         }
 
         return false;
