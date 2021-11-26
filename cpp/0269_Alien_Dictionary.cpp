@@ -54,9 +54,9 @@ public:
                     graph[c] = set<char>();
 
         for (int i = 0; i < words.size() - 1; i++) {
-            int common_len = min(words[i].size(), words[i + 1].size());
+            int common_len = min(words[i].length(), words[i + 1].length());
 
-            if (words[i + 1].size() < words[i].size() && words[i].substr(0, common_len) == words[i + 1])
+            if (words[i + 1].length() < words[i].length() && words[i].substr(0, common_len) == words[i + 1])
                 return "";
 
             for (int j = 0; j < common_len; j++) {
