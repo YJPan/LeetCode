@@ -19,27 +19,27 @@ public:
         vector<vector<pair<string, int>>> dict(26, vector<pair<string, int>>());
 
         for (auto w : words)
-            dict[w[0] - 'a'].push_back(make_pair(w, 1));
+            dict[w[0] - 'a'].push_back(make_pair(w, 0));
 
         for (auto c : s) {
-            vector<pair<string, int>> tmp;
+            vector<pair<string, int>> new_start;
 
             for (auto e : dict[c - 'a']) {
                 string w = e.first;
-                int pos = e.second;
+                int i = e.second;
 
-                if (pos == w.length()) {
+                if (i == w.length() - 1) {
                     ret++;
                     continue;
                 }
 
-                if (w[pos] == c)
-                    tmp.push_back(make_pair(w, pos + 1));
+                if (w[i + 1] == c)
+                    new_start.push_back(make_pair(w, i + 1));
                 else
-                    dict[w[pos] - 'a'].push_back(make_pair(w, pos + 1));
+                    dict[w[i + 1] - 'a'].push_back(make_pair(w, i + 1));
             }
 
-            dict[c - 'a'] = tmp;
+            dict[c - 'a'] = new_start;
         }
 
         return ret;
