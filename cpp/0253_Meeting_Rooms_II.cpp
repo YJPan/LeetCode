@@ -13,25 +13,20 @@ using namespace std;
 
 class Solution {
 public:
-    static bool comp(vector<int> &a, vector<int> &b) {
-        return a[0] < b[0];
-    }
-
     int minMeetingRooms(vector<vector<int>>& intervals) {
-        sort(intervals.begin(), intervals.end(), comp);
-
+        sort(intervals.begin(), intervals.end());
         priority_queue<int, vector<int>, greater<int>> end_time;
-        for (auto t : intervals) {
-            if (!end_time.empty() && end_time.top() <= t[0])
+
+        for (auto i : intervals) {
+            if (!end_time.empty() && i[0] >= end_time.top())
                 end_time.pop();
 
-            end_time.push(t[1]);
+            end_time.push(i[1]);
         }
 
         return end_time.size();
     }
 };
-
 
 int main(int argc, char *argv[]) {
     Solution solution;

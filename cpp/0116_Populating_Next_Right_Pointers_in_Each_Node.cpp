@@ -29,55 +29,24 @@ class Solution {
 public:
     Node* connect(Node* root) {
         if (!root) return nullptr;
-
-        queue<Node*> q;
+        queue<Node *> q;
         q.push(root);
+
         while (!q.empty()) {
             int size = q.size();
             for (int i = 0; i < size; i++) {
-                Node* n = q.front(); q.pop();
-                n->next = (i != size - 1) ? q.front() : nullptr;
+                Node *node = q.front(); q.pop();
 
-                if (n->left)
-                    q.push(n->left);
-                if (n->right)
-                    q.push(n->right);
+                if (node->left) q.push(node->left);
+                if (node->right) q.push(node->right);
+
+                node->next = (i == size - 1) ? nullptr : q.front();
             }
         }
 
         return root;
     }
 };
-
-/*
-class Solution {
-public:
-    Node* connect(Node* root) {
-        if (!root) return root;
-
-        Node *level_ptr = root;
-        Node *root_ptr;
-
-        while (level_ptr->left) {
-            root_ptr = level_ptr;
-
-            while (root_ptr) {
-                root_ptr->left->next = root_ptr->right;
-
-                if (root_ptr->next) {
-                    root_ptr->right->next = root_ptr->next->left;
-                }
-
-                root_ptr = root_ptr->next;
-            }
-
-            level_ptr = level_ptr->left;
-        }
-
-        return root;
-    }
-};
-*/
 
 int main(int argc, char *argv[]) {
 

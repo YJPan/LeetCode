@@ -20,21 +20,18 @@ public:
 
         for (int i = 0; i < nums.size(); i++) {
             for (int j = i + 1; j < nums.size(); j++) {
-                int error = target - nums[i] - nums[j];
+                int remain = target - nums[i] - nums[j];
                 int k = j + 1, l = nums.size() - 1;
 
                 while (k < l) {
-                    if (error > nums[k] + nums[l]) {
+                    if (remain > nums[k] + nums[l]) {
                         k++;
-                    } else if (error < nums[k] + nums[l]) {
+                    } else if (remain < nums[k] + nums[l]) {
                         l--;
                     } else {
-                        ret.push_back(vector<int>{nums[i], nums[j], nums[k], nums[l]});
-                        while (k < l && nums[k] == nums[k + 1])
-                            k++;
-                        while (k < l && nums[l] == nums[l - 1])
-                            l--;
-
+                        ret.push_back({nums[i], nums[j], nums[k], nums[l]});
+                        while (k < l && nums[k] == nums[k + 1]) k++;
+                        while (k < l && nums[l] == nums[l - 1]) l--;
                         k++; l--;
                     }
                 }

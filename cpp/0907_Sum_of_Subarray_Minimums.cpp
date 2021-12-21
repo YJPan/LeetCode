@@ -15,32 +15,28 @@ using namespace std;
 class Solution {
 public:
     int sumSubarrayMins(vector<int>& arr) {
-        vector<int> next_less(arr.size(), arr.size());
-        vector<int> prev_less(arr.size(), -1);
+        vector<int> L(arr.size(), -1);
+        vector<int> R(arr.size(), arr.size());
         stack<int> s;
 
         for (int i = 0; i < arr.size(); i++) {
-            while (!s.empty() && arr[s.top()] >= arr[i]) {
-                next_less[s.top()] = i;
+            while (!s.empty() && arr[s.top()] >= arr[i])
                 s.pop();
-            }
+            L[i] = (s.empty()) ? -1 : s.top();
             s.push(i);
         }
 
         s = stack<int>();
         for (int i = arr.size() - 1; i >= 0; i--) {
-            while (!s.empty() && arr[s.top()] > arr[i]) {
-                prev_less[s.top()] = i;
+            while (!s.empty() && arr[s.top()] > arr[i])
                 s.pop();
-            }
+            R[i] = (s.empty()) ? arr.size() : s.top();
             s.push(i);
         }
 
         int ret = 0, mod = 1e9 + 7;
         for (int i = 0; i < arr.size(); i++) {
-            int ll = i - prev_less[i];
-            int rl = next_less[i] - i;
-            ret = (ret + ((long long)arr[i] * ll * rl)) % mod;
+            ret = ((long long)arr[i] * (i - L[i]) * (R[i] - i) + ret) % mod;
         }
 
         return ret;

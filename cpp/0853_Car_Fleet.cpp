@@ -15,21 +15,24 @@ using namespace std;
 class Solution {
 public:
     int carFleet(int target, vector<int>& position, vector<int>& speed) {
-        int ret = 1;
-        vector<pair<int, float>> record;
+        // pos, time
+        vector<pair<int, float>> info;
         for (int i = 0; i < position.size(); i++) {
-            float time = (target - position[i]) / (float)speed[i];
-            record.push_back(make_pair(position[i], time));
+            float t = (float)(target - position[i]) / speed[i];
+            info.push_back({position[i], t});
         }
 
-        sort(record.begin(), record.end());
+        sort(info.begin(), info.end(), [](pair<int, float>& a, pair<int, float>& b) -> bool
+        {
+            return a.first > b.first;
+        });
 
-        int bar = record.size() - 1;
-        for (int i = record.size() - 2; i >= 0; i--) {
-            if (record[i].second > record[bar].second) {
-                ret++;
-                bar = i;
-            }
+        int ret = 1, head = 0;
+        for (int i = 1; i < info.size(); i++) {
+            if (info[i].second <= info[head].second) continue;
+
+            head = i;
+            ret++;
         }
 
         return ret;

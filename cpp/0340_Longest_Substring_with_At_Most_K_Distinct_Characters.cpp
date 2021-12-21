@@ -14,26 +14,26 @@ using namespace std;
 class Solution {
 public:
     int lengthOfLongestSubstringKDistinct(string s, int k) {
-        int ret = 0, start = 0;
-        map<char, int> record;
+        int start = 0, ret = 0;
+        map<char, int> last_meet;
+
         for (int i = 0; i < s.length(); i++) {
-            record[s[i]] = i;
+            last_meet[s[i]] = i;
 
-            if (record.size() > k) {
-                char ch;
-                int earliest_idx = s.length();
-                for (auto c : record) {
-                    if (c.second < earliest_idx) {
-                        ch = s.first;
-                        earliest_idx = s.second;
-                    }
+            if (last_meet.size() > k) {
+                ret = max(ret, i - start);
+
+                char c = s[start];
+                for (auto e : last_meet) {
+                    if (e.second < last_meet[c])
+                        c = e.first;
                 }
-                record.erase(ch);
-                start = earliest_idx + 1;
-            }
 
-            ret = max(ret, i - start + 1);
+                start = last_meet[c] + 1;
+                last_meet.erase(c);
+            }
         }
+        ret = max(ret, (int)s.length() - start);
 
         return ret;
     }

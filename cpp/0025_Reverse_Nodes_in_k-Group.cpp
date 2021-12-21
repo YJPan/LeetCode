@@ -25,25 +25,23 @@ public:
     ListNode* reverseKGroup(ListNode* head, int k) {
         int cnt = 0;
         ListNode* new_head = head;
-        while (cnt < k) {
-            if (!new_head) break;
+        while (cnt < k && new_head) {
             new_head = new_head->next;
             cnt++;
         }
         if (cnt != k) return head;
 
-        ListNode ret;
+        ListNode* ret = nullptr;
         ListNode* ptr = head;
         while (--cnt >= 0) {
             ListNode* next = ptr->next;
-            ptr->next = ret.next;
-            ret.next = ptr;
+            ptr->next = ret;
+            ret = ptr;
             ptr = next;
         }
-
         head->next = reverseKGroup(new_head, k);
 
-        return ret.next;
+        return ret;
     }
 };
 

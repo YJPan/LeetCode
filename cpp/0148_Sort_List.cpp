@@ -20,63 +20,54 @@ struct ListNode {
 
 class Solution {
 public:
-    ListNode* merge(ListNode* h1, ListNode* h2) {
-        ListNode* head = new ListNode(0);
-        ListNode* ptr = head;
+    ListNode* merge(ListNode* a, ListNode* b) {
+        ListNode ret;
+        ListNode *ptr = &ret;
 
-        while (h1 && h2) {
-            if (h1->val <= h2->val) {
-                ptr->next = h1;
-                h1 = h1->next;
+        while (a && b) {
+            if (a->val < b->val) {
+                ptr->next = a;
+                a = a->next;
             } else {
-                ptr->next = h2;
-                h2 = h2->next;
+                ptr->next = b;
+                b = b->next;
             }
             ptr = ptr->next;
         }
 
-        while (h1) {
-            ptr->next = h1;
-            h1 = h1->next;
-            ptr = ptr->next;
-        }
+        ptr->next = (a) ? a : b;
 
-        while (h2) {
-            ptr->next = h2;
-            h2 = h2->next;
-            ptr = ptr->next;
-        }
-
-        return head->next;
+        return ret.next;
     }
 
-    ListNode* MergeSort(ListNode* head) {
-        ListNode *slow_ptr = head, *fase_ptr = head->next;
+    ListNode* mergeSort(ListNode* head, int len) {
+        if (len > 1) {
+            int cnt = len / 2 - 1;
+            ListNode *a = head;
+            ListNode *b = nullptr;
 
-        if (fase_ptr) {
-            while (fase_ptr->next && fase_ptr->next->next) {
-                slow_ptr = slow_ptr->next;
-                fase_ptr = fase_ptr->next->next;
-            }
-            if (fase_ptr->next) {
-                slow_ptr = slow_ptr->next;
-                fase_ptr = fase_ptr->next;
-            }
-            ListNode* mid = slow_ptr->next;
-            slow_ptr->next = nullptr;
+            while (cnt-- > 0)
+                head = head->next;
+            b = head->next;
+            head->next = nullptr;
 
-            ListNode* h1 = MergeSort(head);
-            ListNode* h2 = MergeSort(mid);
-            return merge(h1, h2);
+            a = mergeSort(a, len / 2);
+            b = mergeSort(b, len - (len /2));
+            return merge(a, b);
         }
 
         return head;
     }
 
     ListNode* sortList(ListNode* head) {
-        if (!head || !head->next) return head;
+        int i = 0;
+        ListNode* ptr = head;
+        while (ptr) {
+            i++;
+            ptr = ptr->next;
+        }
 
-        return MergeSort(head);
+        return mergeSort(head, i);
     }
 };
 

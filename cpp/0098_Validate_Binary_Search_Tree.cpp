@@ -21,14 +21,16 @@ struct TreeNode {
 
 class Solution {
 public:
-    bool dfs(TreeNode* root, TreeNode* smallNode, TreeNode* bigNode) {
-        if (root == nullptr) return true;
-        if ((smallNode && smallNode->val >= root->val) || (bigNode && bigNode->val <= root->val)) return false;
-        return dfs(root->left, smallNode, root) && dfs(root->right, root, bigNode);
+    bool check(TreeNode* root, TreeNode* l, TreeNode* r) {
+        if (!root) return true;
+        if (l && root->val <= l->val) return false;
+        if (r && root->val >= r->val) return false;
+
+        return check(root->left, l, root) && check(root->right, root, r);
     }
 
     bool isValidBST(TreeNode* root) {
-        return dfs(root, nullptr, nullptr);
+        return check(root, nullptr, nullptr);
     }
 };
 

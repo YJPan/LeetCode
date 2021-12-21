@@ -13,13 +13,12 @@ using namespace std;
 class Solution {
 public:
     void dfs(vector<vector<char>>& grid, int x, int y) {
-        grid[x][y] = 0;
-        int dir[4][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+        grid[x][y] = '0';
 
-        for (int k = 0; k < 4; k++) {
-            int nx = x + dir[k][0], ny = y + dir[k][1];
-
-            if (nx < 0 || ny < 0 || nx >= grid.size() || ny >= grid[0].size() || grid[nx][ny] != '1')
+        int dx[4] = {-1, 0, 1, 0}, dy[4] = {0, 1, 0, -1};
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i], ny = y + dy[i];
+            if (nx < 0 || ny < 0 || nx >= grid.size() || ny >= grid[0].size() || grid[nx][ny] == '0')
                 continue;
 
             dfs(grid, nx, ny);
@@ -27,18 +26,18 @@ public:
     }
 
     int numIslands(vector<vector<char>>& grid) {
-        int ans = 0;
+        int ret = 0;
 
         for (int i = 0; i < grid.size(); i++) {
             for (int j = 0; j < grid[0].size(); j++) {
                 if (grid[i][j] == '1') {
+                    ret++;
                     dfs(grid, i, j);
-                    ans++;
                 }
             }
         }
 
-        return ans;
+        return ret;
     }
 };
 

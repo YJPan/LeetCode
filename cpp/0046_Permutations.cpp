@@ -12,66 +12,34 @@ using namespace std;
 
 class Solution {
 public:
-    void dfs(vector<int>& record, vector<bool>& mark, vector<int>& nums, vector<vector<int>>& ans) {
-        if (record.size() == nums.size()) {
-            ans.push_back(record);
+    void recursion(vector<int>& nums, set<int>& visited, vector<int>& tmp, vector<vector<int>>& ret) {
+        if (visited.size() == nums.size()) {
+            ret.push_back(tmp);
             return;
         }
 
-        for (int i = 0; i < nums.size(); i++) {
-            if (!mark[i]) {
-                mark[i] = true;
-                record.push_back(nums[i]);
+        for (auto num : nums) {
+            if (visited.count(num)) continue;
 
-                dfs(record, mark, nums, ans);
+            visited.insert(num);
+            tmp.push_back(num);
 
-                record.pop_back();
-                mark[i] = false;
-            }
+            recursion(nums, visited, tmp, ret);
+
+            tmp.pop_back();
+            visited.erase(num);
         }
     }
 
     vector<vector<int>> permute(vector<int>& nums) {
-        vector<vector<int>> ans;
-        vector<bool> mark(nums.size(), false);
-        vector<int> record;
+        vector<vector<int>> ret;
+        set<int> visited;
+        vector<int> tmp;
 
-        dfs(record, mark, nums, ans);
+        recursion(nums, visited, tmp, ret);
 
-        return ans;
+        return ret;
     }
-
-    /*
-    vector<vector<int>> permute(vector<int>& nums) {
-        queue<vector<int>> record;
-        vector<int> sub;
-        vector<int> v;
-        record.push({});
-
-        for (int i = 0; i < nums.size(); i++) {
-            int cnt = record.size();
-            for (int j = 0; j < cnt; j++) {
-                sub = record.front(); record.pop();
-
-                for (auto num : nums) {
-                    if (find(sub.begin(), sub.end(), num) == sub.end()) {
-                        v = sub;
-                        v.push_back(num);
-                        record.push(v);
-                    }
-                }
-            }
-        }
-
-        vector<vector<int>> ans;
-        while (!record.empty()) {
-            ans.push_back(record.front());
-            record.pop();
-        }
-
-        return ans;
-    }
-    */
 };
 
 int main(int argc, char *argv[]) {

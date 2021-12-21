@@ -13,25 +13,20 @@ using namespace std;
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-        int ans = 0;
-        map<int, int>record;
+        int ret = 0;
+        map<int, int> len;
 
         for (auto num : nums) {
-            if (record.count(num))
-                continue;
+            if (len.count(num) != 0) continue;
 
-            int prev_link = (record.count(num - 1)) ? record[num - 1] : 0;
-            int nrex_link = (record.count(num + 1)) ? record[num + 1] : 0;
+            int prev = (len.count(num - 1)) ? len[num - 1] : 0;
+            int next = (len.count(num + 1)) ? len[num + 1] : 0;
 
-            int link = prev_link + nrex_link + 1;
-            record[num] = link;
-            ans = max(ans, record[num]);
-
-            record[num - prev_link] = link;
-            record[num + nrex_link] = link;
+            len[num] = len[num - prev] = len [num + next] = prev + next + 1;
+            ret = max(ret, len[num]);
         }
 
-        return ans;
+        return ret;
     }
 };
 

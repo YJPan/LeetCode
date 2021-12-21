@@ -22,28 +22,22 @@ struct TreeNode {
 
 class Solution {
 public:
-    int recursion(TreeNode* root, int& cnt, double& ret) {
-        double total = root->val;
-        int l_cnt = 0, r_cnt = 0;
+    vector<int> recursion(TreeNode* root, double& ret) {
+        if (!root) return {0, 0};
 
-        if (root->left)
-            total += recursion(root->left, l_cnt, ret);
+        int sum = root->val, quantity = 1;
+        vector<int> l = recursion(root->left, ret);
+        vector<int> r = recursion(root->right, ret);
+        sum += (l[0] + r[0]);
+        quantity += (l[1] + r[1]);
+        ret = max(ret, (double)sum / quantity);
 
-        if (root->right)
-            total += recursion(root->right, r_cnt, ret);
-
-        cnt = l_cnt + r_cnt + 1;
-        ret = max(ret, total / cnt);
-
-        return total;
+        return {sum, quantity};
     }
 
     double maximumAverageSubtree(TreeNode* root) {
         double ret = 0;
-        int c = 0;
-
-        recursion(root, c, ret);
-
+        recursion(root, ret);
         return ret;
     }
 };

@@ -15,21 +15,20 @@ class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
         int ret = 1;
-        vector<int> record(nums.size(), 0);
-        record[0] = nums[0];
 
         for (int i = 1; i < nums.size(); i++) {
-            int l = 0, r = ret;
-            int m;
-            while (l < r) {
-                m = l + (r - l) / 2;
-                if (record[m] < nums[i])
-                    l = m + 1;
+            int s = 0, e = ret, m = 0;
+
+            while (s < e) {
+                m = s + (e - s) / 2;
+                if (nums[m] >= nums[i])
+                    e = m;
                 else
-                    r = m;
+                    s = m + 1;
             }
-            record[l] = nums[i];
-            ret = max(ret, l + 1);
+
+            nums[s] = nums[i];
+            ret = max(ret, s + 1);
         }
 
         return ret;

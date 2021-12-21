@@ -13,16 +13,15 @@ using namespace std;
 
 class Solution {
 public:
-    int connectSticks(vector<int>& sticks)
-    {
-        priority_queue<int, vector<int>, greater<int>> h(begin(sticks), end(sticks));
+    int connectSticks(vector<int>& sticks) {
         int ret = 0;
+        priority_queue<int, vector<int>, greater<int>> pq(sticks.begin(), sticks.end());
 
-        while (h.size() > 1) {
-            int mm = h.top(); h.pop();
-            int m = h.top(); h.pop();
-            ret += (mm + m);
-            h.push(mm + m);
+        while (pq.size() > 1) {
+            int a = pq.top(); pq.pop();
+            int b = pq.top(); pq.pop();
+            ret += (a + b);
+            pq.push(a + b);
         }
 
         return ret;

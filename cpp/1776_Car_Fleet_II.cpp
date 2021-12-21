@@ -15,70 +15,33 @@ using namespace std;
 class Solution {
 public:
     vector<double> getCollisionTimes(vector<vector<int>>& cars) {
-        vector<double> time(cars.size(), -1);
-        stack<int> s;
+        vector<double> ret(cars.size(), -1);
+        stack<int> car_stack;
 
         for (int i = cars.size() - 1; i >= 0; i--) {
-            int p1 = cars[i][0];
-            int v1 = cars[i][1];
+            int p1 = cars[i][0], v1 = cars[i][1];
 
-            while (!s.empty()) {
-                int last_car = s.top();
-                int p2 = cars[last_car][0];
-                int v2 = cars[last_car][1];
-                double t = (double)(p2 - p1) / (v1 - v2);
+            while (!car_stack.empty()) {
+                int last_car = car_stack.top();
+                int p2 = cars[last_car][0], v2 = cars[last_car][1];
 
-                if (v1 > v2 && (time[last_car] > t || time[last_car] == -1)) {
-                    time[i] = t;
-                    break;
-                }
-
-                s.pop();
-            }
-
-            s.push(i);
-        }
-
-        return time;
-    }
-};
-
-/*
-class Solution {
-public:
-    vector<double> getCollisionTimes(vector<vector<int>>& cars) {
-        vector<double> ret(cars.size(), -1);
-        vector<int> head(cars.size(), -1);
-        for (int i = 0; i < cars.size() - 1; i++)
-            head[i] = i + 1;
-
-        for (int i = cars.size() - 2; i >= 0; i--) {
-            int p = head[i];
-            bool collides = false;
-
-            while (p != -1) {
-                double v_diff = cars[i][1] - cars[p][1];
-                if (v_diff > 0) {
-                    double sec = (cars[p][0] - cars[i][0]) / v_diff;
-
-                    if (ret[p] == -1 || sec < ret[p]) {
-                        ret[i] = sec;
-                        head[i] = p;
-                        collides = true;
+                if (v1 > v2) {
+                    double time = (double)(p2 - p1) / (v1 - v2);
+                    if (ret[last_car] == -1 || ret[last_car] > time) {
+                        ret[i] = time;
                         break;
                     }
                 }
 
-                p = head[p];
+                car_stack.pop();
             }
 
-            if (!collides) head[i] = -1;
+            car_stack.push(i);
         }
 
         return ret;
     }
 };
-*/
 
 int main(int argc, char *argv[]) {
     // Solution solution;

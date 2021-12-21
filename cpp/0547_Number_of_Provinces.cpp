@@ -14,28 +14,27 @@ using namespace std;
 
 class Solution {
 public:
-    void dfs(vector<vector<int>>& isConnected, vector<bool>& visit, int node) {
-        visit[node] = true;
-        for (int i = 0; i < isConnected.size(); i++) {
-            if (!visit[i] && isConnected[node][i] == 1) {
-                dfs(isConnected, visit, i);
+    void dfs(vector<vector<int>>& isConnected, int i, vector<bool>& visited) {
+        visited[i] = true;
+        for (int j = 0; j < isConnected.size(); j++) {
+            if (isConnected[i][j] && !visited[j]) {
+                dfs(isConnected, j, visited);
             }
         }
     }
 
     int findCircleNum(vector<vector<int>>& isConnected) {
-        int n = isConnected.size();
-        vector<bool> visit(n, false);
-        int ans = 0;
+        int ret = 0;
+        vector<bool> visited(isConnected.size(), false);
 
-        for (int i = 0; i < n; i++) {
-            if (!visit[i]) {
-                dfs(isConnected, visit, i);
-                ans++;
+        for (int i = 0; i < isConnected.size(); i++) {
+            if (!visited[i]) {
+                dfs(isConnected, i, visited);
+                ret++;
             }
         }
 
-        return ans;
+        return ret;
     }
 };
 
@@ -43,31 +42,33 @@ public:
 class Solution {
 public:
     int findCircleNum(vector<vector<int>>& isConnected) {
-        int n = isConnected.size();
-        vector<bool> visit(n, false);
-
-        int ans = 0;
+        int ret = 0;
+        vector<bool> visited(isConnected.size(), false);
         queue<int> q;
-        for (int i = 0; i < n; i++) {
-            if (!visit[i]) {
-                visit[i] = true;
-                q.push(i);
 
-                while (!q.empty()) {
-                    int node = q.front(); q.pop();
-                    for (int j = 0; j < n; j++) {
-                        if (!visit[j] && isConnected[node][j] == 1) {
-                            visit[j] = true;
-                            q.push(j);
+        for (int i = 0; i < isConnected.size(); i++) {
+            if (visited[i]) continue;
+            visited[i] = true;
+            q.push(i);
+
+            while (!q.empty()) {
+                int size = q.size();
+                for (int c = 0; c < size; c++) {
+                    int s = q.front(); q.pop();
+
+                    for (int e = 0; e < isConnected.size(); e++) {
+                        if (isConnected[s][e] && !visited[e]) {
+                            visited[e] = true;
+                            q.push(e);
                         }
                     }
                 }
-
-                ans++;
             }
+
+            ret++;
         }
 
-        return ans;
+        return ret;
     }
 };
 */

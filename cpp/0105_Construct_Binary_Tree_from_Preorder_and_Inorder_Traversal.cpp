@@ -28,11 +28,9 @@ public:
         if (inEnd == inStart) return root;
 
         int idx = inStart;
-        while (idx <= inEnd) {
-            if (inorder[idx] == preorder[preStart])
-                break;
-            ++idx;
-        }
+        while (inorder[idx] != root->val)
+            idx++;
+
         root->left = recursion(preorder, inorder, preStart + 1, inStart, idx - 1);
         root->right = recursion(preorder, inorder, preStart + 1 + (idx - 1 - inStart) + 1, idx + 1, inEnd);
 

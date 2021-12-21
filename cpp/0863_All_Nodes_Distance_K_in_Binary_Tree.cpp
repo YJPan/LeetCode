@@ -20,38 +20,34 @@ struct TreeNode {
 
 class Solution {
 public:
-    void dfs(TreeNode* root, map<int, vector<int>>& record, vector<int>& path) {
-        if (root == nullptr) return;
+    void recursion(TreeNode* root, map<int, vector<int>>& paths, vector<int>& rec) {
+        if (!root) return;
 
-        path.push_back(0);
-        dfs(root->left, record, path);
-        path.pop_back();
+        rec.push_back(root->val);
 
-        record[root->val] = path;
+        paths[root->val] = rec;
+        recursion(root->left, paths, rec);
+        recursion(root->right, paths, rec);
 
-        path.push_back(1);
-        dfs(root->right, record, path);
-        path.pop_back();
-    }
+        rec.pop_back();
+}
 
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        map<int, vector<int>> paths;
+        vector<int> rec;
         vector<int> ret;
-        map<int, vector<int>> record;
-        vector<int> path;
 
-        dfs(root, record, path);
-        path = record[target->val];
+        recursion(root, paths, rec);
 
-        for (auto iter = record.begin(); iter != record.end(); iter++) {
-            int len = min(iter->second.size(), path.size());
+        rec = paths[target->val];
+        for (auto p : paths) {
             int same_len = 0;
-            for (; same_len < len; same_len++) {
-                if (iter->second[same_len] != path[same_len])
-                    break;
-            }
+            int max_same_len = min(p.second.size(), rec.size());
+            while (same_len < max_same_len && p.second[same_len] == rec[same_len])
+                same_len++;
 
-            if (path.size() + iter->second.size() - same_len * 2 == k)
-                ret.push_back(iter->first);
+            if (p.second.size() + rec.size() - same_len * 2 == k)
+                ret.push_back(p.first);
         }
 
         return ret;

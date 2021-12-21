@@ -13,39 +13,36 @@ using namespace std;
 
 class Solution {
 public:
-    int get_rank(vector<vector<int>>& matrix, int val) {
-        int n = matrix.size();
-        int x = n - 1, y = 0;
-        int cnt = 0;
-
-        while (x >= 0 && y < n) {
-            if (matrix[x][y] > val) {
+    int getRank(vector<vector<int>>& matrix, int guess) {
+        int ret = 0;
+        int x = matrix.size() - 1, y = 0;
+        while (x >= 0 && y < matrix.size()) {
+            if (matrix[x][y] > guess) {
                 x--;
             } else {
+                ret += (x + 1);
                 y++;
-                cnt += (x + 1);
             }
         }
 
-        return cnt;
+        return ret;
     }
 
     int kthSmallest(vector<vector<int>>& matrix, int k) {
         int n = matrix.size();
-        int start = matrix[0][0], end = matrix[n - 1][n - 1];
+        int l = matrix[0][0], r = matrix[n - 1][n - 1], m = 0;
 
-        while (start < end) {
-            int mid = start + (end - start) / 2;
-            int idx = get_rank(matrix, mid);
+        while (l < r) {
+            m = l + (r - l) / 2;
+            int rank = getRank(matrix, m);
 
-            if (idx < k) {
-                start = mid + 1;
-            } else {
-                end = mid;
-            }
+            if (rank < k)
+                l = m + 1;
+            else
+                r = m;
         }
 
-        return start;
+        return l;
     }
 };
 

@@ -13,48 +13,43 @@ using namespace std;
 
 class Solution {
 public:
-    static bool comp(vector<int>& a, vector<int>& b) {
-        return a[2] < b[2];
+    int findParent(vector<int>& parent, int child) {
+        while (parent[child] != child)
+            child = parent[child];
+        return child;
     }
 
     int minimumCost(int n, vector<vector<int>>& connections) {
         int ret = 0;
         vector<int> rank(n, 0);
-        vector<int> parent(n, 0);
+        vector<int> parent;
+        for (int i = 0; i < n; i++)
+            parent.push_back(i);
 
-        sort(connections.begin(), connections.end(), comp);
+        sort(connections.begin(), connections.end(), [](vector<int>& a, vector<int>& b) -> bool {
+            return a[2] < b[2];
+        });
 
-        for (int i = 0; i < n; i++) {
-            parent[i] = i;
-        }
+        for (auto c : connections) {
+            int pa = findParent(parent, c[0] - 1);
+            int pb = findParent(parent, c[1] - 1);
+            if (pa == pb) continue;
 
-        for (int i = 0; i < connections.size(); i++) {
-            int s = connections[i][0] - 1;
-            int e = connections[i][1] - 1;
-
-            while (parent[s] != s)
-                s = parent[s];
-            while (parent[e] != e)
-                e = parent[e];
-
-            if (s != e) {
-                if (rank[s] > rank[e]) {
-                    parent[e] = s;
-                } else if (rank[s] < rank[e]) {
-                    parent[s] = e;
-                } else {
-                    parent[e] = s;
-                    rank[s]++;
-                }
-
-                ret += connections[i][2];
+            ret += c[2];
+            if (rank[pa] > rank[pb]) {
+                parent[pb] = pa;
+            } else if (rank[pa] < rank[pb]) {
+                parent[pa] = pb;
+            } else {
+                parent[pa] = pb;
+                rank[pb]++;
             }
         }
 
-        int headNum = 0;
+        int numParent = 0;
         for (int i = 0; i < n; i++) {
             if (parent[i] == i) {
-                if (++headNum > 1)
+                if (++numParent > 1)
                     return -1;
             }
         }
@@ -62,6 +57,42 @@ public:
         return ret;
     }
 };
+
+/*
+class Solution {
+public:
+    int minimumCost(int n, vector<vector<int>>& connections) {
+        int ret = 0;
+        vector<bool> visited(n, false);
+        map<int, vector<vector<int>>> graph;
+        for (auto c : connections) {
+            graph[c[0] - 1].push_back({c[1] - 1, c[2]});
+            graph[c[1] - 1].push_back({c[0] - 1, c[2]});
+        }
+        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
+        pq.push({0, 0});
+
+        while (!pq.empty()) {
+            vector<int> node = pq.top(); pq.pop();
+            int cost = node[0], to = node[1];
+            if (visited[to]) continue;
+            visited[to] = true;
+            ret += cost;
+
+            for (auto v : graph[to]) {
+                if (visited[v[0]]) continue;
+                pq.push({v[1], v[0]});
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) return -1;
+        }
+
+        return ret;
+    }
+};
+*/
 
 int main(int argc, char *argv[]) {
     Solution solution;

@@ -37,6 +37,31 @@ public:
     }
 };
 
+/*
+class Solution {
+public:
+    int countSubstrings(string s) {
+        vector<vector<bool>> dp(s.length(), vector<bool>(s.length(), false));
+        for (int i = 0; i < s.length(); i++)
+            dp[i][i] = true;
+
+        int ret = s.length();
+        for (int i = s.length() - 2; i >= 0; i--) {
+            for (int j = i + 1; j < s.length(); j++) {
+                if (s[i] == s[j]) {
+                    if (j - i == 1 || dp[i + 1][j - 1]) {
+                        dp[i][j] = true;
+                        ret++;
+                    }
+                }
+            }
+        }
+
+        return ret;
+    }
+};
+*/
+
 int main(int argc, char *argv[]) {
     Solution solution;
     string s;

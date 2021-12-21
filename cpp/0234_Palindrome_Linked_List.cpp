@@ -22,29 +22,24 @@ struct ListNode {
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        ListNode* fast = head;
-        ListNode* slow = head;
+        ListNode *slow = head, *fast = head;
 
         while (fast && fast->next) {
             fast = fast->next->next;
             slow = slow->next;
         }
+        if (fast) slow = slow->next;
 
-        if (fast)
-            slow = slow->next;
-
-        ListNode* reverse = nullptr;
-        ListNode* ptr = slow;
-        while (ptr) {
-            ListNode* next = ptr->next;
-            ptr->next = reverse;
-            reverse = ptr;
-            ptr = next;
+        ListNode *reverse = nullptr, *tmp = nullptr;
+        while (slow) {
+            tmp = slow->next;
+            slow->next = reverse;
+            reverse = slow;
+            slow = tmp;
         }
 
-        while (reverse) {
-            if (head->val != reverse->val)
-                return false;
+        while (reverse && reverse->val == head->val) {
+            if (reverse->val != head->val) return false;
             head = head->next;
             reverse = reverse->next;
         }
