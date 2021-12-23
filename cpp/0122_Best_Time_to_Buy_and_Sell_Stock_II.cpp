@@ -13,34 +13,21 @@ using namespace std;
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        if (prices.size() <= 1) return 0;
+        int ret = 0, i = 0;
+        int buy = prices[0], sell = prices[0];
+        while (i < prices.size() - 1) {
+            while (i < prices.size() - 1 && prices[i] >= prices[i + 1])
+                i++;
+            buy = prices[i];
 
-        int ans = 0;
-        int buy = prices[0];
-        int sell = -1;
+            while (i < prices.size() - 1 && prices[i] <= prices[i + 1])
+                i++;
+            sell = prices[i];
 
-        for (int i = 1; i < prices.size(); i++) {
-            if (prices[i] < buy) {
-                buy = prices[i];
-                continue;
-            }
-
-            if (prices[i] > sell) {
-                sell = prices[i];
-            }
-
-            if (i + 1 < prices.size() && prices[i + 1] < prices[i]) {
-                ans += (sell - buy);
-                buy = INT_MAX;
-                sell = -1;
-            }
+            ret += (sell - buy);
         }
 
-        if (sell != -1) {
-            ans += (prices[prices.size() - 1] - buy);
-        }
-
-        return ans;
+        return ret;
     }
 };
 
