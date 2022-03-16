@@ -12,19 +12,17 @@ using namespace std;
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        vector<int> ans;
-        map<int, int> record;
-        int cnt = 0;
-
-        for (auto num : nums) {
-            if (record.find(num) == record.end()) {
-                record[target - num] = cnt;
-            } else {
-                return {record[num], cnt};
+        vector<int> ret;
+        map<int, int> dict;
+        for (int i = 0; i < nums.size(); i++) {
+            if (dict.count(target - nums[i]) != 0) {
+                ret = {dict[target - nums[i]], i};
             }
-            cnt++;
+
+            dict[nums[i]] = i;
         }
-        return {-1, -1};
+
+        return ret;
     }
 };
 
