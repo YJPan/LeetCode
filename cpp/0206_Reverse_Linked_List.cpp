@@ -22,17 +22,17 @@ struct ListNode {
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        ListNode ans;
-
+        ListNode *ret = NULL, *ptr = head;
         while (head) {
-            ListNode* ptr = head;
-            head = head->next;
+            ptr = head->next;
 
-            ptr->next = ans.next;
-            ans.next = ptr;
+            head->next = ret;
+            ret = head;
+
+            head = ptr;
         }
 
-        return ans.next;
+        return ret;
     }
 };
 
