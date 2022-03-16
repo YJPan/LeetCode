@@ -21,16 +21,18 @@ struct TreeNode {
 
 class Solution {
 public:
-    bool check(TreeNode* root, TreeNode* l, TreeNode* r) {
+    bool helper(TreeNode* root, TreeNode* lb, TreeNode* hb) {
         if (!root) return true;
-        if (l && root->val <= l->val) return false;
-        if (r && root->val >= r->val) return false;
 
-        return check(root->left, l, root) && check(root->right, root, r);
+        if (lb && root->val <= lb->val) return false;
+
+        if (hb && root->val >= hb->val) return false;
+
+        return helper(root->left, lb, root) && helper(root->right, root, hb);
     }
 
     bool isValidBST(TreeNode* root) {
-        return check(root, nullptr, nullptr);
+        return helper(root, nullptr, nullptr);
     }
 };
 
