@@ -17,18 +17,20 @@ public:
         int ret = 1;
 
         for (int i = 1; i < nums.size(); i++) {
-            int s = 0, e = ret, m = 0;
-
-            while (s < e) {
-                m = s + (e - s) / 2;
-                if (nums[m] >= nums[i])
-                    e = m;
-                else
-                    s = m + 1;
+            // Binary search
+            int l = 0, r = ret, m = 0;
+            while (l < r) {
+                m = l + (r - l) / 2;
+                if (nums[m] >= nums[i]) {
+                    r = m;
+                } else {
+                    l = m + 1;
+                }
             }
 
-            nums[s] = nums[i];
-            ret = max(ret, s + 1);
+            // Insert
+            nums[l] = nums[i];
+            ret = max(ret, l + 1);
         }
 
         return ret;
