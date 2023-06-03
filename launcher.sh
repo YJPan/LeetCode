@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILETYPE="cpp"
+FILETYPE="py"
 
 if [[ $# -lt 1 ]]; then
     echo ""
@@ -41,5 +41,5 @@ print(f'{num:04d}_{name}')
 
     echo "Generate $filename ..."
 
-    cp template.$FILETYPE cpp/$filename
+    cp template.$FILETYPE $FILETYPE/$filename
 fi
