@@ -5,6 +5,7 @@ from collections import OrderedDict
 from collections import deque
 
 
+# Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -13,18 +14,18 @@ class TreeNode:
 
 
 class Solution:
-    def helper(self, preorder, inorder, p_s, p_e, i_s, i_e):
-        if p_s > p_e: return None
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not preorder or not inorder:
+            return None
 
-        root = TreeNode(preorder[p_s])
-        root_idx = inorder.index(root.val)
-        root.left = self.helper(preorder, inorder, p_s + 1, p_s + root_idx - i_s, i_s, root_idx - 1)
-        root.right = self.helper(preorder, inorder, p_s + root_idx - i_s + 1, p_e, root_idx + 1, i_e)
+        root_val = preorder[0]
+        root_inorder_idx = inorder.index(root_val)
+
+        root = TreeNode(root_val)
+        root.left = self.buildTree(preorder[1: 1 + root_inorder_idx], inorder[0: root_inorder_idx])
+        root.right = self.buildTree(preorder[1 + root_inorder_idx:], inorder[root_inorder_idx + 1:])
 
         return root
-
-    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        return self.helper(preorder, inorder, 0, len(preorder) - 1, 0, len(inorder) - 1)
 
 
 if __name__ == "__main__":
